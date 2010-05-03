@@ -146,13 +146,12 @@ static struct clkctl_acpu_speed  acpu_freq_tbl[] = {
 
 static struct cpufreq_frequency_table freq_table[] = {
 	{ 0, 245760 },
-	{ 1, 352000 },
-	{ 2, 384000 },
-	{ 3, 528000 },
-        { 4, 537600 }, 
-        { 5, 556800 }, 
-        { 6, 576000 }, 
-	{ 7, CPUFREQ_TABLE_END },
+	{ 1, 384000 },
+	{ 2, 528000 },
+        { 3, 537600 }, 
+        { 4, 556800 }, 
+        { 5, 576000 }, 
+	{ 6, CPUFREQ_TABLE_END },
 };
 
 static int pc_pll_request(unsigned id, unsigned on)
