@@ -129,6 +129,20 @@ static struct clkctl_acpu_speed  acpu_freq_tbl[] = {
 };
 #else /* Table of freq we currently use. */
 static struct clkctl_acpu_speed  acpu_freq_tbl[] = {
+#if defined(CONFIG_TURBO_MODE) 
+    	{ 19200, ACPU_PLL_TCXO, 0, 0, 19200, 0, VDD_0, 30720, 0, 0, 4 }, 
+    	{ 122880, ACPU_PLL_0, 4, 1, 61440, 1, VDD_1, 61440, 0, 0, 4 }, 
+    	{ 160000, ACPU_PLL_1, 1, 5, 53333, 2, VDD_1, 61440, 0, 0, 6 }, 
+    	{ 176000, ACPU_PLL_2, 2, 5, 88000, 1, VDD_1, 61440, 0, 0, 5 }, 
+    	{ 245760, ACPU_PLL_0, 4, 0, 81920, 2, VDD_2, 61440, 0, 0, 5 }, 
+    	{ 352000, ACPU_PLL_2, 2, 2, 88000, 3, VDD_4, 128000, 0, 3, 7 }, 
+    	{ 480000, ACPU_PLL_1, 1, 1, 120000, 3, VDD_6, 120000, 0, 2, -1 }, 
+        { 528000, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x1b },
+        { 537600, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x1c },
+        { 556800, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x1d },
+        { 576000, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x1e },
+    	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+#else
 	{ 19200, ACPU_PLL_TCXO, 0, 0, 19200, 0, VDD_0, 30720, 0, 0, 4 },
 	{ 122880, ACPU_PLL_0, 4, 1, 61440, 1, VDD_1, 61440, 0, 0, 4 },
 	{ 128000, ACPU_PLL_1, 1, 5, 64000, 1, VDD_1, 61440, 0, 0, 6 },
@@ -141,10 +155,24 @@ static struct clkctl_acpu_speed  acpu_freq_tbl[] = {
         { 556800, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x1d },
         { 576000, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x1e },
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+#endif
 };
 #endif
 
 static struct cpufreq_frequency_table freq_table[] = {
+#if defined(CONFIG_TURBO_MODE) 
+        { 0, 122880 }, 
+        { 1, 160000 }, 
+	{ 2, 176000 },
+        { 3, 245760 }, 
+	{ 4, 352000 },
+        { 5, 480000 }, 
+        { 6, 528000 }, 
+        { 7, 537600 },
+        { 8, 556800 },
+        { 9, 576000 },
+        { 10, CPUFREQ_TABLE_END }, 
+#else 
 	{ 0, 128000 },
 	{ 1, 176000 },
 	{ 2, 245760 },
@@ -155,6 +183,7 @@ static struct cpufreq_frequency_table freq_table[] = {
         { 7, 556800 },
         { 8, 576000 },
 	{ 9, CPUFREQ_TABLE_END },
+#endif
 };
 
 static int pc_pll_request(unsigned id, unsigned on)
