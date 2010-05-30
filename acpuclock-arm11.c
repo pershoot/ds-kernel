@@ -52,6 +52,9 @@
 #define PERF_SWITCH_DEBUG 0
 #define PERF_SWITCH_STEP_DEBUG 0
 
+static int force_turbo = 0;
+module_param_named(force_turbo, force_turbo, int, S_IRUGO | S_IWUSR | S_IWGRP);
+
 struct clock_state
 {
 	struct clkctl_acpu_speed	*current_speed;
@@ -62,6 +65,12 @@ struct clock_state
 	unsigned long			power_collapse_khz;
 	unsigned long			wait_for_irq_khz;
 };
+
+#if force_turbo 
+	printk(KERN_DEBUG "FORCING TURBO MODE\n");
+	writel(PLL_960_MHZ, MSM_CLK_CTL_BASE+0x320);
+	udelay(50);
+#endif
 
 static struct clk *ebi1_clk;
 static struct clock_state drv_state = { 0 };
